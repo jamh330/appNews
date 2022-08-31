@@ -1,0 +1,7 @@
+<ion-grid fixed>
+  <ion-row>
+    <ion-col *ngFor="let panorama of panoramas, let i=index">
+      <app-panorama [panorama]="panorama" [index]="i"></app-panorama>
+    </ion-col>
+  </ion-row>
+</ion-grid>
