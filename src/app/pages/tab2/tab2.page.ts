@@ -24,6 +24,7 @@ export class Tab2Page implements OnInit{
   backToTop: boolean = false;
   public mode:number=modeC;
   public panoramas: Result[]=[];
+  public categoryPlace:number[] = [126, 177, 118, 136, 145, 144, 44, 146, 139, 60, 168, 178, 32, 156]
 
   constructor(private newsService:NewsService, public platform: Platform) {}
 
@@ -74,11 +75,23 @@ export class Tab2Page implements OnInit{
   if(this.mode==0){
     this.selectedCategoryPanorama=event.detail.value;
     console.log(this.selectedCategoryPanorama)
+    console.log(this.categoryPlace.find(select => select == this.selectedCategoryPanorama))
+
+    if(this.categoryPlace.find(select => select == this.selectedCategoryPanorama)){
+      this.newsService.getLugarByCategories(this.page,this.selectedCategoryPanorama).subscribe(resp=>{
+        console.log(resp);
+        this.panoramas=resp.results;
+        
+      }); 
+    }
+
+    else{
     this.newsService.getPanoramaByCategories(this.page,this.selectedCategoryPanorama).subscribe(resp=>{
       console.log(resp);
       this.panoramas=resp.results;
     }); 
-
+    
+  }
 
   }
 

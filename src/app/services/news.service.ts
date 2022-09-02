@@ -26,7 +26,7 @@ export class NewsService {
   }
 
   getPanoramas(page:number){
-    return this.htpp.get<PanoramaResponse>(`${urlPanorama}`, {
+    return this.htpp.get<PanoramaResponse>(`${urlPanorama}eventos`, {
       params:{
         page: page
       }
@@ -54,8 +54,20 @@ export class NewsService {
   }
 
 
+
+
   getPanoramaByCategories(page:number, category:number){
-    return this.htpp.get<PanoramaResponse>(`${urlPanorama}`, {
+    return this.htpp.get<PanoramaResponse>(`${urlPanorama}eventos`, {
+      params:{
+        cat: category,
+        page: page
+      }
+    });
+  }
+
+
+  getLugarByCategories(page:number, category:number){
+    return this.htpp.get<PanoramaResponse>(`${urlPanorama}lugares`, {
       params:{
         cat: category,
         page: page
