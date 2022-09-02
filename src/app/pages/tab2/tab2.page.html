@@ -21,15 +21,42 @@
   </ion-segment-button>
 </ion-segment>
 
+<app-articles *ngIf="mode == 1" [articles]="articles"></app-articles> 
+
+
+
 <ion-segment *ngIf="mode == 0" [value]="selectedCategoryPanorama" (ionChange)="segmentChanged($event)" scrollable="true" mode="md" >
   <ion-segment-button *ngFor="let category of panoramaCategories" [value]="category.id">
     <ion-label>{{category.name}}</ion-label>
   </ion-segment-button>
 </ion-segment>
 
- <app-articles *ngIf="mode == 1" [articles]="articles"></app-articles> 
+<ion-slides (ionSlideDidChange)="slideChanged()" pager="true" >
+  <ion-slide *ngFor="let category of panoramaCategories" id="{{category.id}}">
+  
 
-  <app-panoramas *ngIf="mode == 0" [panoramas]="panoramas"></app-panoramas> 
+    <ion-grid *ngIf="!hayPanoramas" fixed>
+    <ion-col > 
+      <ion-card>
+        <ion-title class="ion-padding-horizontal ion-margin-bottom">
+          No hay Panoramas en esta categoia
+        </ion-title>
+        <ion-img src="assets/no-disponible.jpg"></ion-img>
+      </ion-card>
+    </ion-col>
+  </ion-grid>
+   
+  <ion-grid *ngIf="cargando" fixed>
+    <ion-col > 
+      <ion-spinner name="bubbles"></ion-spinner>
+      <ion-label >Cargando...</ion-label>
+    </ion-col>
+  </ion-grid>
+      
+    <app-panoramas *ngIf="mode == 0" [panoramas]="panoramas" ></app-panoramas> 
+
+</ion-slide>
+</ion-slides>
 
 
 
@@ -37,6 +64,7 @@
   <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando...">
   </ion-infinite-scroll-content>
 </ion-infinite-scroll>
+
 
 
 

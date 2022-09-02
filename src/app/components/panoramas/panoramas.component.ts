@@ -10,8 +10,12 @@ export class PanoramasComponent implements OnInit {
 
   @Input() panoramas:Result[];
 
+
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
+ 
 
 }
