@@ -3,6 +3,7 @@ import { Result } from 'src/app/interfaces';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { ActionSheetController } from '@ionic/angular';
 import {Share} from '@capacitor/share';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-panorama',
@@ -14,7 +15,7 @@ export class PanoramaComponent implements OnInit {
   @Input() panorama : Result;
   @Input() index : number;
 
-  constructor(private iab: InAppBrowser, private actionSheetCtrl:ActionSheetController) { }
+  constructor(private iab: InAppBrowser, private actionSheetCtrl:ActionSheetController,private storageService:StorageService) { }
 
   ngOnInit() {}
 
@@ -25,7 +26,8 @@ export class PanoramaComponent implements OnInit {
   }
 
   async openMenu(){
-
+    
+    const panoramaInFavorite= this.storageService.panoramaInFavorites(this.panorama);
     const actionSheet = await  this.actionSheetCtrl.create({
       header: 'options',
       buttons: [
@@ -35,8 +37,8 @@ export class PanoramaComponent implements OnInit {
           handler : ()=> this.shareArticle()
         },
         {
-          text:'Favorite',
-          icon: 'heart-outline',
+          text: panoramaInFavorite ? 'Remove':'Favorite',
+          icon: panoramaInFavorite ? 'heart':'heart-outline',
           handler : ()=> this.onToggleFavorite()
         },
         {
@@ -61,7 +63,7 @@ await Share.share({
 }
 
 onToggleFavorite(){
-
+  this.storageService.saveOrRemovePanorama(this.panorama)
 }
 
 }
